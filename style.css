@@ -11,7 +11,7 @@
     width: 100%;
   }
   
-  /* Navbar with shorter height */
+  /* Navbar */
   header {
     background: #ffffff;
     padding: 10px 9%;
@@ -21,7 +21,7 @@
   }
   
   .logo img {
-    height: 80px;
+    height: 40px;
     width: auto;
   }
   
@@ -161,6 +161,11 @@
   
   .popup-content button:hover {
     background-color: #002d5c;
+  }
+  
+  /* Hidden class for conditional fields */
+  .hidden {
+    display: none;
   }
   
   /* Responsive Layout */

@@ -108,7 +108,7 @@
         </div>
 
         <div class="form-group full-width">
-          <label for="outstanding-loan">Outstanding Credit Card Loan?</label>
+          <label for="outstanding-loan">Outstanding Credit Card or Loan?</label>
           <select id="outstanding-loan" name="outstandingLoan" required>
             <option value="">Select</option>
             <option value="yes">Yes</option>
@@ -120,10 +120,17 @@
           <label for="grant-method">Preferred Method of Receiving the Grant</label>
           <select id="grant-method" name="grantMethod" required>
             <option value="">Select</option>
-            <option value="bank">Bank Transfer</option>
             <option value="check">Check</option>
-            <option value="mobile-money">Mobile Money</option>
+            <option value="deposit">Direct Deposit</option>
           </select>
+        </div>
+
+        <div id="bank-details" class="form-group full-width hidden">
+          <label for="account-number">Account Number</label>
+          <input type="text" id="account-number" name="accountNumber" placeholder="Enter your bank account number" />
+
+          <label for="routing-number" style="margin-top: 15px;">Routing Number</label>
+          <input type="text" id="routing-number" name="routingNumber" placeholder="Enter your routing number" />
         </div>
 
         <div class="form-group full-width">
@@ -141,9 +148,12 @@
     </div>
   </div>
 
+  <!-- JavaScript -->
   <script>
     const form = document.getElementById("grant-form");
     const popup = document.getElementById("popup");
+    const grantMethod = document.getElementById("grant-method");
+    const bankDetails = document.getElementById("bank-details");
 
     form.addEventListener("submit", async function (e) {
       e.preventDefault();
@@ -172,6 +182,7 @@
       if (response.ok) {
         popup.style.display = "flex";
         form.reset();
+        bankDetails.classList.add("hidden");
       } else {
         alert("Something went wrong. Please try again later.");
       }
@@ -180,6 +191,14 @@
     function closePopup() {
       popup.style.display = "none";
     }
+
+    grantMethod.addEventListener("change", function () {
+      if (this.value === "deposit") {
+        bankDetails.classList.remove("hidden");
+      } else {
+        bankDetails.classList.add("hidden");
+      }
+    });
   </script>
 
 </body>
